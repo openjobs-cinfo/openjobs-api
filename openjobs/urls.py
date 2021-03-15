@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.shortcuts import redirect
 
 urlpatterns = [
+    path('', lambda *args: redirect('/api/doc')),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path('accounts/logout/', lambda *args: redirect('/admin/logout')),
