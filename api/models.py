@@ -45,6 +45,9 @@ class DataOrigin(models.Model):
     name = models.CharField(max_length=255)
     url = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Skill(models.Model):
     class Meta:
@@ -70,8 +73,8 @@ class Job(models.Model):
     number = models.IntegerField()
     title = models.CharField(max_length=255)
     state = models.CharField(max_length=50)
-    created_at = models.DateField()
-    closed_at = models.DateField()
+    created_at = models.DateField(null=True)
+    closed_at = models.DateField(null=True, blank=True)
     description = models.TextField()
     location = models.CharField(max_length=1000)
     origin_id = models.ForeignKey(DataOrigin, on_delete=models.RESTRICT)
@@ -93,8 +96,8 @@ class User(AbstractUser):
     avatar_url = models.CharField(max_length=1000, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     address_id = models.ForeignKey(Address, null=True, on_delete=models.CASCADE)
-    skills = models.ManyToManyField(Skill, related_name='skilled_users')
-    qualifications = models.ManyToManyField(Qualification, related_name='qualified_users')
+    skills = models.ManyToManyField(Skill, blank=True, related_name='skilled_users')
+    qualifications = models.ManyToManyField(Qualification, blank=True, related_name='qualified_users')
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'

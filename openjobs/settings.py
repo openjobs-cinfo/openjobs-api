@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import environ
 
@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third Part Apps
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
+    'djoser',
+    'drf_yasg',
     # Local Apps
     'api',
 ]
@@ -109,6 +112,36 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Auth Settings
 AUTH_USER_MODEL = 'api.User'
+LOGIN_URL = '/admin/login'
+DJOSER = {
+    'SERIALIZERS': {
+        'user': 'api.serializers.UserSerializer',
+        'user_create': 'api.serializers.UserCreationSerializer',
+        'current_user': 'api.serializers.UserSerializer',
+    },
+    'PERMISSIONS': {
+        'user': ('djoser.permissions.CurrentUserOrAdminOrReadOnly',)
+    },
+}
+
+# Django Rest Framework Settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
+SIMPLE_JWT = {
+    # 'ACCESS_TOKEN_LIFETIME': timedelta(minutes=20),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=20),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
