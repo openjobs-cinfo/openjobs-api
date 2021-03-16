@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
 from rest_framework.routers import DefaultRouter
 from .viewsets import DegreeViewSet, JobViewSet, SkillViewSet, DataOriginViewSet, AddressViewSet, \
     QualificationViewSet
@@ -26,6 +27,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('auth/', include('djoser.urls.base')),
     path('auth/', include('djoser.urls.jwt')),
-    path('doc/', swagger_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', swagger_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('doc/', login_required(swagger_view.with_ui('swagger', cache_timeout=0)), name='schema-swagger-ui'),
+    path('redoc/', login_required(swagger_view.with_ui('redoc', cache_timeout=0)), name='schema-redoc'),
 ]
