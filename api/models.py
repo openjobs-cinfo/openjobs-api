@@ -32,7 +32,7 @@ class Qualification(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    degree_id = models.ForeignKey(Degree, on_delete=models.RESTRICT)
+    degree_id = models.ForeignKey(Degree, on_delete=models.RESTRICT, db_column='degree_id')
 
     def __str__(self):
         return self.name
@@ -58,7 +58,7 @@ class Skill(models.Model):
     name = models.CharField(max_length=255)
     color = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    origin_id = models.ForeignKey(DataOrigin, on_delete=models.RESTRICT)
+    origin_id = models.ForeignKey(DataOrigin, on_delete=models.RESTRICT, db_column='origin_id')
 
     def __str__(self):
         return self.name
@@ -77,7 +77,7 @@ class Job(models.Model):
     closed_at = models.DateField(null=True, blank=True)
     description = models.TextField()
     location = models.CharField(max_length=1000)
-    origin_id = models.ForeignKey(DataOrigin, on_delete=models.RESTRICT)
+    origin_id = models.ForeignKey(DataOrigin, on_delete=models.RESTRICT, db_column='origin_id')
     skills = models.ManyToManyField(Skill, related_name='jobs')
 
     def __str__(self):
@@ -95,7 +95,7 @@ class User(AbstractUser):
     name = models.CharField(max_length=255)
     avatar_url = models.CharField(max_length=1000, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    address_id = models.ForeignKey(Address, null=True, on_delete=models.CASCADE)
+    address_id = models.ForeignKey(Address, null=True, on_delete=models.CASCADE, db_column='address_id')
     skills = models.ManyToManyField(Skill, blank=True, related_name='skilled_users')
     qualifications = models.ManyToManyField(Qualification, blank=True, related_name='qualified_users')
 
