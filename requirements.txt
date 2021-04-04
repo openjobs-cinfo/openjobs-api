@@ -102,6 +102,8 @@ drf-yasg==1.20.0; python_version >= "3.6" \
 faker==7.0.1; python_version >= "3.6" \
     --hash=sha256:08c4cfbfd498c0e90aff6741771c01803d894013df858db6a573182c6a47951f \
     --hash=sha256:20c6e4253b73ef2a783d38e085e7c8d8916295fff31c7403116d2af8f908f7ca
+gunicorn==20.1.0; python_version >= "3.5" \
+    --hash=sha256:e0a968b5ba15f8a328fdfd7ab1fcb5af4470c28aaf7e55df02a99bc13138e6e8
 idna==2.10; python_full_version >= "3.6.1" and python_full_version < "4.0.0" \
     --hash=sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0 \
     --hash=sha256:b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6
