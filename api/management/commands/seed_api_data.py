@@ -22,10 +22,12 @@ class Command(BaseCommand):
         })
 
     def run_degree_seed(self, seeder, options):
-        degrees = ['Médio', 'Técnico', 'Superior', 'Pós-graduação', 'Mestrado', 'Doutorado', 'Escola']
-        degree_generator = (degree for degree in degrees)
-        ids = seeder.add_entity(Degree, len(degrees), {'name': lambda x: degree_generator.__next__()})
-        return ids
+        if not Degree.objects.all():
+            degrees = ['Médio', 'Técnico', 'Superior', 'Pós-graduação', 'Mestrado', 'Doutorado', 'Escola']
+            degree_generator = (degree for degree in degrees)
+            ids = seeder.add_entity(Degree, len(degrees), {'name': lambda x: degree_generator.__next__()})
+            return ids
+        return None
 
     def run_qualification_seed(self, seeder, options):
         degree_ids = Degree.objects.all().values_list('id', flat=True)
@@ -50,14 +52,15 @@ class Command(BaseCommand):
         })
 
     def run_job_seed(self, seeder, options):
-        data_origin_ids = DataOrigin.objects.all()
+        data_origins = DataOrigin.objects.all()
+        skills = Skill.objects.all()
         return seeder.add_entity(Job, options['number'], {
             'title': lambda x: seeder.faker.job(),
             'url': lambda x: seeder.faker.url(),
             'state': lambda x: seeder.faker.state(),
             'created_at': lambda x: seeder.faker.date(),
             'closed_at': lambda x: seeder.faker.date(),
-            'origin_id': lambda x: seeder.faker.random_element(data_origin_ids)
+            'origin_id': lambda x: seeder.faker.random_element(data_origins),
         })
 
     def run_user_seed(self, seeder, options):
@@ -126,3 +129,17 @@ class Command(BaseCommand):
                     unique=True
                 )
                 user.qualifications.set(list(user_qualifications))
+
+        if Job in pks:
+            pk_new_jobs = pks[Job]
+            all_skills = list(Skill.objects.all())
+            for pk_job in pk_new_jobs:
+                job = Job.objects.get(id=pk_job)
+
+                # Adding Job Skills
+                job_skills = seeder.faker.random_elements(
+                    all_skills,
+                    length=seeder.faker.random_int(min=1, max=len(all_skills)),
+                    unique=True
+                )
+                job.skills.set(list(job_skills))
