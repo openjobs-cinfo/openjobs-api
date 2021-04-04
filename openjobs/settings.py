@@ -31,6 +31,8 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+CORS_ALLOW_ALL_ORIGINS = env.bool('CORS_ALLOW_ALL_ORIGINS')
+CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS')
 
 # Application definition
 
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'django_seed',
+    'corsheaders',
     # Local Apps
     'api',
 ]
@@ -60,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'openjobs.urls'
