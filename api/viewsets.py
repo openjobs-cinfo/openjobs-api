@@ -2,10 +2,9 @@ from django.db.models.query import QuerySet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.views import APIView
 from .models import Degree, Job, Skill, DataOrigin, Address, Qualification
 from .serializers import DegreeSerializer, JobSerializer, SkillSerializer, DataOriginSerializer, \
-    AddressSerializer, QualificationSerializer, SkillRelationSerializer
+    AddressSerializer, QualificationSerializer
 
 
 class AddressViewSet(ModelViewSet):
