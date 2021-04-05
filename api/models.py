@@ -32,8 +32,8 @@ class Qualification(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    institution = models.CharField(max_length=255)
-    time_course = models.IntegerField()
+    institution = models.CharField(max_length=255, default="__uninformed__")
+    time_course = models.IntegerField(default=0)
     degree_id = models.ForeignKey(Degree, on_delete=models.RESTRICT, db_column='degree_id')
 
     def __str__(self):

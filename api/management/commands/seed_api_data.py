@@ -30,13 +30,14 @@ class Command(BaseCommand):
         return None
 
     def run_qualification_seed(self, seeder, options):
-        degree_ids = Degree.objects.all().values_list('id', flat=True)
-        return seeder.add_entity(Qualification, options['number'], {
-            'name': lambda x: seeder.faker.job(),
-            'institution': lambda x: seeder.faker.company(),
-            'time_course': lambda x: seeder.faker.random_int(min=1, max=12),
-            'degree_id': lambda x: Degree.objects.get(id=seeder.faker.random_element(elements=degree_ids))
-        })
+        self.stdout("Qualifications are sown only when Users are sown")
+        # degree_ids = Degree.objects.all().values_list('id', flat=True)
+        # return seeder.add_entity(Qualification, options['number'], {
+        #     'name': lambda x: seeder.faker.job(),
+        #     'institution': lambda x: seeder.faker.company(),
+        #     'time_course': lambda x: seeder.faker.random_int(min=1, max=12),
+        #     'degree_id': lambda x: Degree.objects.get(id=seeder.faker.random_element(elements=degree_ids))
+        # })
 
     def run_dataorigin_seed(self, seeder, options):
         return seeder.add_entity(DataOrigin, options['number'], {
@@ -123,12 +124,16 @@ class Command(BaseCommand):
                 user.skills.set(list(user_skills))
 
                 # Adding User Qualifications
-                max_qualifications = 3 if len(all_qualifications) >= 3 else len(all_qualifications)
-                user_qualifications = seeder.faker.random_elements(
-                    all_qualifications,
-                    length=seeder.faker.random_int(min=0, max=max_qualifications),
-                    unique=True
-                )
+                max_qualifications = 15
+                number = seeder.faker.random_int(min=0, max=max_qualifications)
+                user_qualifications = seeder.add_entity(Qualification, number, {
+                    'name': lambda x: seeder.faker.job(),
+                    'description': seeder.faker.pystr(),
+                    'institution': lambda x: seeder.faker.company(),
+                    'time_course': lambda x: seeder.faker.random_int(min=1, max=12),
+                    'degree_id': lambda x: Degree.objects.get(id=seeder.faker.random_element(elements=degree_ids))
+                })
+
                 user.qualifications.set(list(user_qualifications))
 
         if Job in pks:
