@@ -34,7 +34,9 @@ class QualificationViewSet(ModelViewSet):
     serializer_class = QualificationSerializer
     filterset_fields = {
         'name': ['iexact', 'icontains'],
-        'description': ['iexact', 'icontains'],
+        'description': ['icontains'],
+        'institution': ['iexact', 'icontains'],
+        'time_course': ['iexact'],
         'degree_id__name': ['iexact', 'icontains'],
         'degree_id__id': ['iexact'],
     }
@@ -45,7 +47,7 @@ class SkillViewSet(ModelViewSet):
     serializer_class = SkillSerializer
     filterset_fields = {
         'name': ['iexact', 'icontains'],
-        'description': ['iexact', 'icontains'],
+        'description': ['icontains'],
         'origin_id__name': ['iexact', 'icontains'],
         'origin_id__id': ['iexact'],
     }
