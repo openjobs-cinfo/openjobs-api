@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.contrib.auth.decorators import login_required
 from rest_framework.routers import DefaultRouter
 from .viewsets import DegreeViewSet, JobViewSet, SkillViewSet, DataOriginViewSet, AddressViewSet, \
-    QualificationViewSet
+    QualificationViewSet, JobRecommendationViewSet
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -22,6 +22,7 @@ router.register(r'qualifications', QualificationViewSet)
 router.register(r'skills', SkillViewSet)
 router.register(r'jobs', JobViewSet)
 router.register(r'data_origins', DataOriginViewSet)
+router.register(r'auth/users/me', JobRecommendationViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
