@@ -33,6 +33,8 @@ class Command(BaseCommand):
         degree_ids = Degree.objects.all().values_list('id', flat=True)
         return seeder.add_entity(Qualification, options['number'], {
             'name': lambda x: seeder.faker.job(),
+            'institution': lambda x: seeder.faker.company(),
+            'time_course': lambda x: seeder.faker.random_int(min=1, max=12),
             'degree_id': lambda x: Degree.objects.get(id=seeder.faker.random_element(elements=degree_ids))
         })
 
@@ -53,7 +55,6 @@ class Command(BaseCommand):
 
     def run_job_seed(self, seeder, options):
         data_origins = DataOrigin.objects.all()
-        skills = Skill.objects.all()
         return seeder.add_entity(Job, options['number'], {
             'title': lambda x: seeder.faker.job(),
             'url': lambda x: seeder.faker.url(),
