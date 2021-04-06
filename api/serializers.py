@@ -20,13 +20,10 @@ class QualificationSerializer(ModelSerializer):
         fields = ('id', 'name', 'description', 'degree_id')
 
 
-class JobSerializer(ModelSerializer):
+class SkillRelationSerializer(ModelSerializer):
     class Meta:
-        model = Job
-        fields = (
-            'id', 'original_id', 'url', 'number', 'title', 'state', 'created_at', 'closed_at', 'description',
-            'location', 'origin_id', 'skills'
-        )
+        model = Skill
+        fields = ('id', 'name')
 
 
 class DataOriginSerializer(ModelSerializer):
@@ -35,16 +32,28 @@ class DataOriginSerializer(ModelSerializer):
         fields = ('id', 'name', 'url')
 
 
+class DataOriginRelationSerializer(ModelSerializer):
+    class Meta:
+        model = DataOrigin
+        fields = ('id', 'name')
+
+
+class JobSerializer(ModelSerializer):
+    skills = SkillRelationSerializer(many=True, read_only=True)
+    origin_id = DataOriginRelationSerializer(read_only=True)
+
+    class Meta:
+        model = Job
+        fields = (
+            'id', 'original_id', 'url', 'number', 'title', 'state', 'created_at', 'closed_at', 'description',
+            'location', 'origin_id', 'skills'
+        )
+
+
 class SkillSerializer(ModelSerializer):
     class Meta:
         model = Skill
         fields = ('id', 'original_id', 'url', 'name', 'color', 'description', 'origin_id')
-
-
-class SkillRelationSerializer(ModelSerializer):
-    class Meta:
-        model = Skill
-        fields = ('id', 'name', 'color', 'description')
 
 
 class UserSerializer(ModelSerializer):
