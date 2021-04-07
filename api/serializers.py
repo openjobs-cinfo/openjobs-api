@@ -23,7 +23,7 @@ class QualificationSerializer(ModelSerializer):
 class SkillRelationSerializer(ModelSerializer):
     class Meta:
         model = Skill
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'color')
 
 
 class DataOriginSerializer(ModelSerializer):
